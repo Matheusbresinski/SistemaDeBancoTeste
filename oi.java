@@ -6,7 +6,7 @@ import java.io.PrintWriter;
 import java.io.IOException;
 public class oi {
 
- public static void main(String[]args){
+ public static void main(String[]args) throws IOException{
    Scanner entrada = new Scanner(System.in);
    ArrayList<String> nome = new ArrayList<String>();
    ArrayList<String> endereco = new ArrayList<String>();
@@ -38,7 +38,6 @@ public class oi {
     int b;
     double sac;
     double soma;
-    int c3;
    System.out.println("%n%n");
    System.out.println("*************************** BEM VINDO AO BANK IFES ***************************");
    System.out.println("*                           1 - Gerente                                      *");
@@ -54,8 +53,10 @@ public class oi {
     switch (opcao) {
 
       case 1:
+      System.out.println("*                              GERENTE LEONARDO                              *");
       System.out.println("*                           1 - Cadastrar o cliente                          *");
       System.out.println("*                           2 - Remover o cliente*                           *");
+      System.out.println("*                           3 - Imprimir dados de contas                     *");
       opcao2 = entrada.nextInt();
        switch (opcao2) {
           case 1:
@@ -102,8 +103,20 @@ public class oi {
             senha.remove(indice2);
             saldo.remove(indice2);
             System.out.print("Nome e conta removida com sucesso!");
-                break;
+              break;
+            case 3:
+            FileWriter arquivo = new FileWriter ("/Users/matheus/Desktop/Extrato.txt", true);
+            PrintWriter salvar = new PrintWriter(arquivo);
+            salvar.println("");
+            salvar.println("*************************** BEM VINDO AO BANK IFES ***************************");
+            salvar.println("GERENTE LEONARDO");
+            for(int i = 0; i < cc.size();i++){
 
+            salvar.printf("%nindece: %d %nNome: %s %nEndereço: %s %nTelefone: %s %nCPF:%s %nconta corrente: %s %nnumero da agencia: %s %nsenha: %s  %nsaldo:R$:%2.2f   ", i+i , nome.get(i) ,endereco.get(i),telefone.get(i), cpf.get(i), cc.get(i), numeroag.get(i), senha.get(i), saldo.get(i));
+            }
+            salvar.close();
+
+                      break;
             }
             break;
 
@@ -129,6 +142,7 @@ public class oi {
               System.out.println("*                           3 - Fazer depósito                                  *");
               System.out.println("*                           4 - Fazer transferencia                             *");
               System.out.println("*                           5 - Fazer pagamento de boletos                      *");
+
               int opcao3 = entrada.nextInt();
                switch (opcao3) {
                   case 1:// sacando
@@ -151,7 +165,7 @@ public class oi {
                     System.out.printf("%nsaldo: %2.2f%n",saldo.get(indice));
 
 
-                  break;
+                    break;
 
                   case 3: // deposintando
                     System.out.print("Deseja depositar dinheiro nesta conta Digite (s/n) para outra conta");
@@ -171,94 +185,114 @@ public class oi {
                       System.out.println("Digite o nome da conta que deseja fazer depósito");
                       String n2 = entrada.next();
 
-                        if(nome.contains(n2)){
-                          System.out.println("Nome de conta para depósito valida!");
-                          int indice2 = nome.indexOf(n2);
-                          System.out.println("Digite a conta corrente");
-                          c3 = entrada.nextInt();
-                          int cc1 = cc.get(indice2);
-                            if(c3 == cc1){
+                            if(nome.contains(n2)){
+                              System.out.println("Nome de conta para depósito valida!");
+                              int indice2 = nome.indexOf(n2);
+                              System.out.println("Digite a conta corrente");
+                              int c3 = entrada.nextInt();
+                              int cc1 = cc.get(indice2);
+                                if(c3 == cc1){
 
-                              System.out.println("conta corrente numero: " + cc1);
+                                  System.out.println("conta corrente numero: " + cc1);
 
-                              System.out.print("Quanto voce deseja depositar:");
-                              double deposito = entrada.nextDouble();
+                                  System.out.print("Quanto voce deseja depositar:");
+                                  double dep = entrada.nextDouble();
 
-                              soma = deposito + saldo.get(indice2);
-                              saldo.set(indice2 , soma);
-                              System.out.println("saldo R$:"+saldo.get(indice2));
+                                  if(dep > saldo.get(indice)){
+                                    System.out.println("saldo insuficiente");
+                                    System.out.println("Favor repetir a operação");
+                                  }else{
+                                    soma =  saldo.get(indice) - saldo.get(indice2);
+                                    saldo.set(indice , soma);
+                                    System.out.println("saldo R$:"+saldo.get(indice));
 
-                            }else{
+                                  }
+
+                                }else{
                               System.out.println("conta corrente numero inválida " );
+                                }
+
+                              }else{
+                                System.out.println("Nome de conta para depósito inválida!");
+                              }
                             }
 
+                      break;
+
+
+                  case 4: //transferencia
+                          System.out.println("Digite o nome da conta que deseja fazer transferencia");
+                          String n3 = entrada.next();
+
+                          if(nome.contains(n3)){
+                            System.out.println("Nome de conta para transferencia valida!");
+                            int indice3 = nome.indexOf(n3);
+                            System.out.println("Digite a conta corrente");
+
+                            int c4 = entrada.nextInt();
+                            int cc2 = cc.get(indice3);
+                                if(c4 == cc2){
+
+                                  System.out.println("conta corrente numero: " + cc2);
+
+                                  System.out.print("Quanto voce deseja depositar:");
+                                  double deposito = entrada.nextDouble();
+
+                                  soma = deposito + saldo.get(indice3);
+                                  saldo.set(indice3 , soma);
+                                  System.out.println("saldo R$:"+saldo.get(indice3));
+
+                                }else{
+                                  System.out.println("conta corrente numero inválida " );
+                                }
+
+                            }else{
+                              System.out.println("nome da conta corrente não cadastrada" );
+                            }
+
+
+                      break;
+
+                  case 5://pangando boleto
+                      System.out.println("favor Digitar a linha de código do Boleto");
+                      int boleto = entrada.nextInt();
+                      System.out.println("favor Digitar o valor a ser pago!");
+                      double dinheiro = entrada.nextDouble();
+
+                        if(dinheiro > saldo.get(indice)){
+                          System.out.println("Saldo insuficiente!");
                         }else{
 
-
+                          soma =  saldo.get(indice) - dinheiro;
+                          saldo.set(indice , soma);
+                          System.out.println("Pagamento de boleto pago!!");
+                          System.out.println("saldo R$:"+saldo.get(indice));
                         }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                    }
-
-                    break;
-
-
-
-
-
-
-
-
+                        break;
 
                   }
-                  System.out.println("Deseja fazer outra operação se sim digite 0 se não digite 1");
+                  System.out.println("Deseja fazer outra operação se sim digite 1 se não digite 0");
                   b = entrada.nextInt();
-                }while(b == 0);
+                }while(b == 1);
 
-
-
-
-            }else{
+              }else{
               System.out.println("Senha inválida");
-            }
-        }else{
+              }
+          }else{
 	            System.out.println(" Não existe este titular");
 
+              }
+
+              break;
+
             }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-        break;
-
-      }
         System.out.print("Deseja continuar digite 4 se nao 0");
         in = entrada.nextInt();
       }while (in == 4);
+
+
       }
 
   }
