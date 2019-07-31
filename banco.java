@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.io.FileWriter;
 import java.io.PrintWriter;
 import java.io.IOException;
-public class oi {
+public class banco {
 
  public static void main(String[]args) throws IOException{
    Scanner entrada = new Scanner(System.in);
